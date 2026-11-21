@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GraphFlow | Smart Traffic Management</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-icon">Ｇ</div><div><b>GraphFlow</b><small>TRAFFIC INTELLIGENCE</small></div></div>
+  <div class="side-label">WORKSPACE</div>
+  <button class="nav active" data-target="overview">▦ <span>Overview</span></button>
+  <button class="nav" data-target="network">⌘ <span>Graph Network</span></button>
+  <button class="nav" data-target="traffic">◉ <span>Traffic & Weights</span></button>
+  <button class="nav" data-target="signals">◷ <span>Signal Optimizer</span></button>
+  <button class="nav" data-target="routes">➤ <span>Route Guidance</span></button>
+  <div class="side-bottom"><div class="live-dot"></div><span>Simulation environment</span><small>v1.0 · Discrete Graph Theory</small></div>
+</aside>
+<main class="main">
+<header class="topbar"><div><span class="eyebrow">SMART CITY / CONTROL CENTER</span><h1>Traffic Management Dashboard</h1></div><div class="top-actions"><span class="status"><i></i> SYSTEM ONLINE</span><button class="btn ghost" id="resetBtn">↻ Reset demo</button></div></header>
+<section id="overview" class="view active">
+  <div class="welcome"><div><span class="eyebrow mint">LIVE GRAPH SIMULATION</span><h2>Understand traffic.<br><em>Optimize movement.</em></h2><p>Model intersections as vertices and roads as weighted edges. Adjust congestion, calculate efficient routes and balance signal demand.</p><button class="btn primary" data-jump="network">Explore road network <b>→</b></button></div><div class="hero-art"><div class="orbit o1"></div><div class="orbit o2"></div><div class="hub">G</div><span class="node n1">A</span><span class="node n2">B</span><span class="node n3">C</span><span class="node n4">D</span><span class="node n5">E</span></div></div>
+  <div class="stats">
+    <article class="stat"><span>NETWORK NODES</span><b id="nodeCount">5</b><small>Road intersections · |V|</small></article>
+    <article class="stat"><span>ROAD SEGMENTS</span><b id="edgeCount">7</b><small>Connected edges · |E|</small></article>
+    <article class="stat"><span>AVERAGE CONGESTION</span><b id="avgCongestion">Medium</b><small>Based on current road status</small></article>
+    <article class="stat"><span>NETWORK STATUS</span><b class="good">Connected</b><small>All demo nodes reachable</small></article>
+  </div>
+  <div class="grid two">
+    <article class="panel"><div class="panel-head"><div><span class="eyebrow">TOPOLOGY OVERVIEW</span><h3>Road network map</h3></div><button class="text-btn" data-jump="network">Open network →</button></div><div class="network-preview" id="miniNetwork"></div><div class="legend"><span><i class="lg-node"></i> Intersection</span><span><i class="lg-road"></i> Road</span><span><i class="lg-hot"></i> Congested</span></div></article>
+    <article class="panel"><div class="panel-head"><div><span class="eyebrow">QUICK ANALYSIS</span><h3>Traffic snapshot</h3></div><span class="pill">DEMO DATA</span></div><div id="quickRoads" class="road-list"></div><button class="btn secondary full" data-jump="traffic">Update traffic conditions</button></article>
+  </div>
+  <div class="panel note"><b>Discrete mathematics concept</b><p>A road network is represented by a weighted graph <strong>G = (V, E)</strong>. Vertices (V) represent intersections; edges (E) represent roads. The edge weight represents estimated travel cost and changes with congestion.</p></div>
+</section>
+
+<section id="network" class="view">
+  <div class="section-title"><div><span class="eyebrow">MODULE 1 · GRAPH MODELING & TOPOLOGY CONSTRUCTION</span><h2>Road network topology</h2><p>Explore intersections and the roads connecting them.</p></div><span class="pill">WEIGHTED GRAPH G = (V, E)</span></div>
+  <div class="grid network-layout">
+    <article class="panel"><div class="panel-head"><div><h3>Interactive graph</h3><small>Node positions are illustrative; edge labels show current costs.</small></div><button class="btn ghost small" id="fitGraph">↻ Refresh</button></div><div id="networkCanvas" class="network-canvas"></div><div class="legend"><span><i class="lg-node"></i> Vertex</span><span><i class="lg-road"></i> Low cost</span><span><i class="lg-hot"></i> High cost</span></div></article>
+    <article class="panel"><h3>Graph definition</h3><div class="formula">G = (V, E, W)</div><div class="definition"><b>V · Vertices</b><p id="verticesText">A, B, C, D, E</p></div><div class="definition"><b>E · Edges</b><p id="edgesText">Road connections</p></div><div class="definition"><b>W · Weights</b><p>Estimated travel cost in minutes, adjusted by congestion.</p></div><div class="divider"></div><h4>Adjacency list</h4><div id="adjacency" class="adjacency"></div></article>
+  </div>
+</section>
+
+<section id="traffic" class="view">
+  <div class="section-title"><div><span class="eyebrow">MODULE 2 · REAL-TIME TRAFFIC FLOW & DYNAMIC EDGE WEIGHTING</span><h2>Traffic conditions</h2><p>Change traffic density to update the weighted graph.</p></div><span class="pill amber">SIMULATED TRAFFIC INPUT</span></div>
+  <div class="panel"><div class="panel-head"><div><h3>Road segment controls</h3><small>Choose a congestion level for each road.</small></div><button class="btn secondary small" id="randomTraffic">Randomize traffic</button></div><div class="table-wrap"><table><thead><tr><th>ROAD / EDGE</th><th>BASE COST (MIN)</th><th>CONGESTION</th><th>FACTOR</th><th>UPDATED WEIGHT</th></tr></thead><tbody id="trafficRows"></tbody></table></div><div class="formula-line">Updated edge weight = Base travel cost × Congestion factor</div></div>
+  <div class="grid two"><article class="panel"><h3>Congestion distribution</h3><div id="congestionBars" class="bars"></div></article><article class="panel"><h3>Weighting parameters</h3><div class="param"><span>Low traffic</span><b>× 1.0</b></div><div class="param"><span>Medium traffic</span><b>× 1.5</b></div><div class="param"><span>High traffic</span><b>× 2.2</b></div><p class="muted">These factors are illustrative simulation values, not live sensor measurements.</p></article></div>
+</section>
+
+<section id="signals" class="view">
+  <div class="section-title"><div><span class="eyebrow">MODULE 3 · SIGNAL PHASE OPTIMIZATION</span><h2>Intersection signal optimizer</h2><p>Estimate green-time priority from incoming traffic demand.</p></div><span class="pill">HEURISTIC MODEL</span></div>
+  <div class="grid two"><article class="panel"><h3>Intersection demand</h3><label class="field">Select intersection<select id="junctionSelect"></select></label><div id="approachInputs"></div><button class="btn primary full" id="optimizeBtn">Optimize signal phases →</button></article><article class="panel"><div class="panel-head"><div><span class="eyebrow">OPTIMIZATION RESULT</span><h3>Suggested green-time split</h3></div><span class="pill mint-pill">CALCULATED</span></div><div id="signalResult" class="signal-result"><div class="empty">Select an intersection and run optimization to view suggested signal timing.</div></div></article></div>
+  <div class="panel note"><b>Model assumption</b><p>The demonstration allocates a 60-second cycle proportionally to the entered approach vehicle counts, with a minimum green time of 5 seconds per approach. This is an educational heuristic, not a certified traffic-signal controller.</p></div>
+</section>
+
+<section id="routes" class="view">
+  <div class="section-title"><div><span class="eyebrow">ROUTE GUIDANCE · DIJKSTRA'S ALGORITHM</span><h2>Find the lowest-cost route</h2><p>Calculate a shortest path using the current dynamic edge weights.</p></div><span class="pill mint-pill">WEIGHTED SHORTEST PATH</span></div>
+  <div class="grid route-layout"><article class="panel"><h3>Route parameters</h3><div class="form-row"><label class="field">Start intersection<select id="startNode"></select></label><label class="field">Destination<select id="endNode"></select></label></div><button class="btn primary full" id="routeBtn">Calculate best route →</button><div id="routeResult" class="route-result"><div class="empty">Choose a start and destination to calculate a route.</div></div></article><article class="panel"><h3>Route cost comparison</h3><p class="muted">Compare current weighted cost with the original base-cost route.</p><div id="comparison" class="comparison"><div class="empty">Run route analysis to compare the two routes.</div></div></article></div>
+  <div class="panel"><div class="panel-head"><div><span class="eyebrow">PERFORMANCE ANALYSIS</span><h3>Static vs dynamic route cost</h3></div><span class="pill">MINUTES · ILLUSTRATIVE</span></div><canvas id="compareChart" height="115"></canvas></div>
+</section>
+<footer>GRAPHFLOW <span>·</span> DISCRETE MATHEMATICS PROJECT <span>·</span> Educational simulation</footer>
+</main></div>
+<script src="script.js"></script>
+</body></html>
